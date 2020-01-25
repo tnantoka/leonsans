@@ -1,24 +1,56 @@
 declare class Dispatcher {
-  public on<TData = any>(event: string, callback: (TData) => void): void;
-  public off<TData = any>(event: string, callback: (TData) => void): void;
+  public on<TData = any>(event: string, callback: (arg0: TData) => void): void;
+  public off<TData = any>(event: string, callback: (arg0: TData) => void): void;
   public dispatch<TData = any>(event: string, data: TData): void;
 }
 
-export default class LeonSans extends Dispatcher {
+interface Rect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+interface LeonSansProperties {
+  text: string;
+  size: number;
+  weight: number;
+  color: string[] | string[][];
+  tracking: number;
+  leading: number;
+  align: 'left' | 'center' | 'right';
+  pathGap: number;
+  amplitude: number;
+  maxWidth: number;
+  breakWord: boolean;
+  fps: number;
+  isPath: boolean;
+  isWave: boolean;
+}
+
+export type LeonSansOptions = Partial<Readonly<LeonSansProperties>> & {
+  colorful?: string[];
+};
+
+export default class LeonSans extends Dispatcher implements LeonSansProperties {
+  public constructor(options: LeonSansOptions);
+
   public text: string;
   public size: number;
   public weight: number;
-  public color: string[];
+  public color: string[] | string[][];
   public tracking: number;
   public leading: number;
   public align: 'left' | 'center' | 'right';
   public pathGap: number;
   public amplitude: number;
-  public width: number;
+  public maxWidth: number;
   public breakWord: boolean;
   public fps: number;
   public isPath: boolean;
   public isWave: boolean;
+
+  public readonly rect: Rect;
   public readonly linkeWidth: number;
   public readonly scale: number;
   // TODO: improve these types.
